@@ -8,6 +8,10 @@ namespace TheRandomWalk
         private readonly Game game;
         private Point location;
 
+        public double Height { get; internal set; }
+
+        public double Width { get; internal set; }
+
         public Point Location
         {
             get { return location; }
