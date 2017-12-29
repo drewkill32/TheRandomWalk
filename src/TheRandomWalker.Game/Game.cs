@@ -50,7 +50,6 @@ namespace TheRandomWalk
             if (Status == GameStatus.Running || Status == GameStatus.Debug)
                 throw new Exception("The Game has already started\r\nDelete the game and start again");
             Point midPoint = new Point(boundries.Width / 2, boundries.Height / 2);
-            midPoint = GetNearestGridPoint(midPoint);
             lampPost = new LampPost(this, midPoint);
 
             //create the new walker at the midpoint of the grid and move it NSEW
@@ -154,13 +153,6 @@ namespace TheRandomWalk
 
             return finished;
         }
-
-        private Point GetNearestGridPoint(Point point)
-        {
-            return point;
-        }
-
-
 
         protected virtual void OnGameUpdated(GameUpdatedEventArgs args)
         {
