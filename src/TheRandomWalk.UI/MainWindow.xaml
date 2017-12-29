@@ -1,0 +1,155 @@
+﻿<Window x:Class="TheRandomWalker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Name="mainWindow"
+        Title="The Random Walk"
+        Height="570"
+        
+        MinHeight="{Binding Height, ElementName=mainWindow, Mode=OneTime}"
+        Width="750"
+        MinWidth="{Binding Width, ElementName=mainWindow, Mode=OneTime}"
+        Loaded="Window_Loaded">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Width"
+                    Value="75" />
+            <Setter Property="Height"
+                    Value="25" />
+            <Setter Property="Margin"
+                    Value="0 10" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="500" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="3">
+            <MenuItem Header="File"></MenuItem>
+        </Menu>
+        <Canvas Grid.Row="1"
+                Grid.Column="0"
+                x:Name="DrawCanvas"
+                Background="LightBlue"
+                Height="500"
+                Width="500"
+                ClipToBounds="True">
+
+        </Canvas>
+        <Grid Grid.Row="1"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button x:Name="startButton"
+                    Click="ButtonBase_OnClick">Start</Button>
+            <Button Grid.Row="1"
+                    x:Name="stopButton"
+                    Height="{DynamicResource ButtonHeight}"
+                    Click="StopButton_OnClick">Stop</Button>
+            <DockPanel Grid.Row="2">
+                <DockPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Width"
+                                Value="25" />
+                        <Setter Property="Height"
+                                Value="25" />
+                        <Setter Property="Margin"
+                                Value="0 10" />
+                    </Style>
+                </DockPanel.Resources>
+                <CheckBox DockPanel.Dock="Top"
+                          x:Name="debugCheckBox"
+                          Margin="5 10"
+                          Click="DebugCheckBox_OnClick"
+                          Content="Debug" />
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="northWestButton"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="1"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">NW</Button>
+                    <Button x:Name="northButton"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="2"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">N</Button>
+                    <Button x:Name="northEastButton"
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="3"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">NE</Button>
+                    <Button  x:Name="westButon"
+                             Grid.Row="1"
+                             Grid.Column="0"
+                             Command="{Binding MoveCommand}"
+                             CommandParameter="4"
+                             Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">W</Button>
+                    <Button  x:Name="noneButon"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Command="{Binding MoveCommand}"
+                             CommandParameter="0"
+                             Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}"
+                             Content=" "></Button>
+                    <Button x:Name="eastButton"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="5"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">E</Button>
+                    <Button x:Name="southWestButton"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="6"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">SW</Button>
+                    <Button x:Name="southButton"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="7"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">S</Button>
+                    <Button x:Name="southEastButton"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Command="{Binding MoveCommand}"
+                            CommandParameter="8"
+                            Visibility="{Binding IsChecked, ElementName=debugCheckBox,Converter={StaticResource BooleanToVisibilityConverter}}">SE</Button>
+
+                </Grid>
+                <TextBox x:Name="debugTextBox"
+                         Margin="5 10"
+                         AcceptsReturn="True"
+                         AcceptsTab="True"
+                         VerticalScrollBarVisibility="Auto"
+                         />
+            </DockPanel>
+        </Grid>
+
+    </Grid>
+
+</Window>
