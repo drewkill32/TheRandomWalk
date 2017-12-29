@@ -40,7 +40,8 @@ namespace TheRandomWalker
             DataContext = this;
             MoveCommand = new RelayCommand(o =>
             {
-                if (int.TryParse(o.ToString(), out var i))
+                int i;
+                if (int.TryParse(o.ToString(), out i))
                     game.Move((Direction)i);
                 else
                     throw new InvalidCastException("Unable to get int out of parameter");
@@ -141,8 +142,8 @@ namespace TheRandomWalker
         {
 
             //move the current walker
-            UpdateLocation(walker, game.Walker.Location);
-            DrawIfDoesntExist(game.Walker.PreviousLocation);
+            UpdateLocation(walker, e.Mover.Location);
+            DrawIfDoesntExist(e.Mover.PreviousLocation);
             if (!(sender is Game g)) return;
             if (g.Status == GameStatus.Finished)
             {
@@ -163,7 +164,9 @@ namespace TheRandomWalker
             foreach (UIElement child in DrawCanvas.Children)
             {
                 if (!(child is Ellipse ellipse)) continue;
-                if ((int)Canvas.GetLeft(child) != point.X || (int)Canvas.GetTop(child) != point.Y) continue;
+                var left = (int) Canvas.GetLeft(child);
+                var top = (int)Canvas.GetTop(child);
+                if ( left != point.X || top != point.Y) continue;
                 if (Equals(ellipse.Fill, markerBrush))
                     markerExists = true;
             }
