@@ -31,14 +31,16 @@ namespace TheRandomWalk
         public int Moves { get; private set; }
 
         private readonly Rectangle boundries;
+        private readonly Action<LampPost, Walker> renderAction;
 
         public double CellSize { get; set; }
 
 
-        public Game(Rectangle boundries, double cellSize)
+        public Game(Rectangle boundries, double cellSize,Action<LampPost,Walker> renderAction)
         {
 
             this.boundries = boundries;
+            this.renderAction = renderAction;
             this.CellSize = cellSize;
             this.boundries = boundries;
             Status = GameStatus.NotStarted;
@@ -50,15 +52,23 @@ namespace TheRandomWalk
             if (Status == GameStatus.Running || Status == GameStatus.Debug)
                 throw new Exception("The Game has already started\r\nDelete the game and start again");
             Point midPoint = new Point(boundries.Width / 2, boundries.Height / 2);
-            lampPost = new LampPost(this, midPoint);
+            lampPost = new LampPost(this, midPoint)
+            {
+                Height = CellSize,
+                Width = CellSize
+            };
 
             //create the new walker at the midpoint of the grid and move it NSEW
-            walker = new Walker(this, midPoint);
+            walker = new Walker(this, midPoint)
+            {
+                Height = CellSize,
+                Width = CellSize
+            };
             do
             {
                 walker.Move(rand);
             } while (walker.LastDirection == Direction.None);
-
+            renderAction(lampPost, walker);
             Status = debug ? GameStatus.Debug : GameStatus.Running;
         }
 

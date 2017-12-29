@@ -86,25 +86,36 @@ namespace TheRandomWalker
             CreateGridMarkers(rows, MarkType.Row);
             CreateGridMarkers(columns, MarkType.Column);
             var boundaries = new Rectangle(0, 0, (int)DrawCanvas.ActualWidth, (int)DrawCanvas.ActualHeight);
-            game = new Game(boundaries, cellSize);
+            game = new Game(boundaries, cellSize, RenderObjects);
             game.Updated += Game_Updated;
             ;
+
+        }
+
+        private void RenderObjects(LampPost lp, Walker w)
+        {
             lampPost = new Ellipse
             {
-                Width = cellSize,
-                Height = cellSize,
+                Width = lp.Width,
+                Height = lp.Height,
                 Fill = new SolidColorBrush(Colors.Yellow),
                 Visibility = Visibility.Collapsed,
             };
             walker = new Ellipse
             {
-                Width = cellSize,
-                Height = cellSize,
+                Width = w.Width,
+                Height = w.Height,
                 Fill = new SolidColorBrush(Colors.RoyalBlue),
                 Visibility = Visibility.Collapsed
             };
+            DrawCanvas.Children.Add(lampPost);
+            
+            DrawCanvas.Children.Add(walker);
+            //make the lamppost appear on top of every other object
+            Canvas.SetZIndex(lampPost, 1000);
+            //make the walker appear above everything but the lamppost
+            Canvas.SetZIndex(walker, 900);
         }
-
 
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -127,10 +138,7 @@ namespace TheRandomWalker
             game.Start(debugCheckBox.IsChecked ?? false);
             UpdateLocation(lampPost, game.LampPost.Location);
             UpdateLocation(walker, game.Walker.Location);
-            DrawCanvas.Children.Add(lampPost);
-            Canvas.SetZIndex(lampPost, 1000);
-            Canvas.SetZIndex(walker, 900);
-            DrawCanvas.Children.Add(walker);
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
